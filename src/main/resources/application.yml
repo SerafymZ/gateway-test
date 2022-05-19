@@ -1,0 +1,42 @@
+server:
+  port: 8000
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: get-user
+        uri: http://localhost:8080
+        predicates:
+        - Path=/api/v1/user/{segment}
+        - Method=GET
+        filters:
+        - RewritePath=/api/v1/user/?(?<segment>.*), /user/$\{segment}
+      - id: get-users-by-filters
+        uri: http://localhost:8080
+        predicates:
+#        - Path=/api/v1/user?partOfName={segment1}&partOfNumber={segment2}
+        - Path=/api/v1/user
+        filters:
+        - RewritePath=/api/v1/user, /user
+      - id: save-user
+        uri: http://localhost:8080
+        predicates:
+        - Path=/api/v1/user
+        - Method=POST
+        filters:
+        - RewritePath=/api/v1/user, /user
+      - id: update-user
+        uri: http://localhost:8080
+        predicates:
+        - Path=/api/v1/user/{segment}
+        - Method=PUT
+        filters:
+        - RewritePath=/api/v1/user/?(?<segment>.*), /user/$\{segment}
+      - id: delete-user
+        uri: http://localhost:8080
+        predicates:
+        - Path=/api/v1/user/{segment}
+        - Method=DELETE
+        filters:
+        - RewritePath=/api/v1/user/?(?<segment>.*), /user/$\{segment}
