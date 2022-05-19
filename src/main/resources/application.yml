@@ -15,7 +15,6 @@ spring:
       - id: get-users-by-filters
         uri: http://localhost:8080
         predicates:
-#        - Path=/api/v1/user?partOfName={segment1}&partOfNumber={segment2}
         - Path=/api/v1/user
         filters:
         - RewritePath=/api/v1/user, /user
